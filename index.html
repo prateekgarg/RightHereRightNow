@@ -1,4 +1,4 @@
-
+Access-Control-Allow-Origin: http://localhost:8080
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,7 +81,7 @@ var map = L.map('map', {
     })
     .setView([41.869910, -87.65], 16
 	);
-	
+var divvyStationLayer = new L.LayerGroup();	
 //making a control layers group
 var baseLayers = {
 	"OSM Mapnik": osmMap,
@@ -91,7 +91,7 @@ var baseLayers = {
 };
 
 var overlays = {
-	//	"Divvy Stations": divvyStationLayer,
+		"Divvy Stations": divvyStationLayer,
         "Commuinites": chicagoCommunitiesLayer
 };
 //binding layer group to map
@@ -279,6 +279,51 @@ function refreshData()
     getNewData("1231");
     getNewData("0124");
 }
+
+  
+  var arr =[];
+// Get Divvy Bikes
+$.getJSON("http://query.yahooapis.com/v1/public/yql", {
+    q: "select * from json where url=\"http://www.divvybikes.com/stations/json/\"",
+    format: "json"
+},
+function (data) {
+	var divvydata = (data.query.results.json.stationBeanList);
+	var stationsInfo = [];
+	for(var i = 0; i < divvydata.length; i++)
+                   {
+                       var lon = parseFloat(divvydata[i].longitude);
+                       var lat = parseFloat(divvydata[i].latitude);
+                       var name = (divvydata[i].stationName);
+                       var dcapacity = parseInt(divvydata[i].totalDocks);
+                       var stationID = parseInt(divvydata[i].id);
+					   var acapacity = parseInt(divvydata[i].availableBikes);
+                      // var popOfStation = parseFloat(popular[i].Total);
+                      //all information about specefic stations stored here 
+                      stationsInfo[i] = [name, lat, lon, dcapacity, stationID, acapacity];
+                      //popularity[i] = popOfStation; //seperate array needed to scale for opacity                                           
+                   }
+   for(var i = 0; i < divvydata.length; i++)
+                   {
+                   //adding stations to a layerGroup instead of straigh to the map for toggabiity (Not a word, apparently)
+
+                        var marker = L.marker([stationsInfo[i][1], stationsInfo[i][2]],{/*icon: myIcon,*/ /*opacity: (scale(stationsInfo[i][5])) ,*/'marker-color': '#ff8888', riseOnHover: true})
+                              .addTo(divvyStationLayer).bindPopup(stationsInfo[i][0] + "<br/>Total Docks: " + stationsInfo[i][3] + "<br/>Available Bikes: " + stationsInfo[i][5]);
+
+            
+                        marker["name"] = stationsInfo[i][0];
+						marker["stationID"] = stationsInfo[i][4];
+                        marker["lat"] = stationsInfo[i][1];
+                        marker["lon"] = stationsInfo[i][2];
+					
+					}
+
+    //console.log(data.query.results.json.stationBeanList);
+});
+
+
+
+
 
 </script>
 </div>
