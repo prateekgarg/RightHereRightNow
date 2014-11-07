@@ -1,8 +1,7 @@
 
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Crime around UIC using leaflet</title>
+    <title>Right Here Right Now</title>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
@@ -11,12 +10,15 @@
     <script src="App/js/map/MapApp.js"></script>
     <script src="App/js/weather/suncalc.js"></script>
     <script src="App/js/weather/USWeatherApp.js"></script>
+    <script src="App/js/map/MyCustomLayer.js"></script>
+    <script src="App/js/ajax/AjaxApp.js"></script>
+
     <script>
         var mapApp;
         var usWeatherApp;
         function init(){
             mapApp = new MapApp;
-            mapApp.refreshData();
+            mapApp.init();
 
             usWeatherApp = new USWeatherApp;
             usWeatherApp.init(1,"#viz");
@@ -25,30 +27,20 @@
 </head>
 <body onload="init();">
 
-    <div id="mapContainer">
-        <div id="map" style="position: absolute;float: left;width: 90%;height: 90%;"></div>
-</div>
-<div id="buttons" style="position:absolute;float:left;width:90%; height:10%; text-align: center; background: #fff">
-    <input name="updateButton1"
-           type="button"
-           value="Zoom In"
-           onclick="mapApp.map.zoomIn()" />
-    <input name="updateButton2"
-           type="button"
-           value="Zoom Out"
-           onclick="mapApp.map.zoomOut()" />
-    <input name="updateButton3"
-           type="button"
-           value="Map View"
-           onclick="mapApp.setMap(2)" />
-    <input name="updateButton4"
-           type="button"
-           value="Aerial View"
-           onclick="mapApp.setMap(1)" />
-    <input name="updateButton4"
-           type="button"
-           value="Refresh"
-           onclick="mapApp.refreshData()" />
+<div id="container" style="position: absolute;width: 100%;height: 95%">
+    <div id="map" style="height: 90%;"></div>
+<div id="buttonsContainer"  style="position:relative;float:left;height:10%;width: 100%">
+
+        <div id="controlsContainer" style="position: relative;float: left; width: 100%;height: 5%">
+            <div onclick="mapApp.limitView()"
+                 style="position: relative;float: left;border: solid thin black">UIC Campus to Museum Campus</div>
+            <div onclick="mapApp.fullView()"
+                 style="position: relative;float: left;border: solid thin black">Overall Chicago</div>
+            <div onclick="mapApp.refreshData()"
+                 style="position: relative;float: left;border: solid thin black">Refresh Map</div>
+        </div>
+    </center>
+    </div>
 </div>
 </body>
 </html>

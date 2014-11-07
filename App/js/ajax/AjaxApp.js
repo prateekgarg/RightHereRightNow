@@ -11,3 +11,13 @@ function ajaxRequest(callback, actionUrl) {
         }
     });
 }
+function DivvyRequest(callback){
+    $.ajax({
+        url: "http://www.divvybikes.com/stations/json/",
+        //dataType : "jsonp",
+        success: callback,
+        error:function() {
+            console.log("ajax request failed");
+        }
+    });
+}

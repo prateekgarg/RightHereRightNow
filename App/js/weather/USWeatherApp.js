@@ -90,8 +90,8 @@ var USWeatherApp = Class.extend({
 
         weatherIcon = iconSet[8].icon_url;
         var weatherName = weatherIcon.substring(28, weatherIcon.length-4);
-        var currentTime = new Date().getHours()+new Date().getMinutes()/60;
-
+        var currentTime = new Date().getHours() + new Date().getMinutes()/60;
+        //console.log("Time = " + new Date());
         if (weatherName === "")
             weatherName = "unknown";
 
@@ -139,7 +139,7 @@ var USWeatherApp = Class.extend({
 
                 d3.json
                 (
-                    "https://query.yahooapis.com/v1/public/yql?q=select%20temp_f%2C%20weather%2C%20icons%20from%20wunderground.currentobservation%20where%20location%3D'"+lattitude+","+longitude+"'%3B&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=",
+                    "http://query.yahooapis.com/v1/public/yql?q=select%20temp_f%2C%20weather%2C%20icons%20from%20wunderground.currentobservation%20where%20location%3D'"+lattitude+","+longitude+"'%3B&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=",
                     function(err, response){
                         if(err){
                             return;
@@ -231,7 +231,7 @@ var USWeatherApp = Class.extend({
 
 // load in all of the weather icons at startup time
     loadInIcons: function () {
-        var path = "./icons/weather/";
+        var path = "App/json/icons/weather/";
         var self = this;
 
         this.gwin.iconmostlycloudynight.src = path + "mostlycloudy-night.jpg";
@@ -325,6 +325,6 @@ var USWeatherApp = Class.extend({
         this.gwin.mode = newMode;
         this.gwin.appID = "A" + this.myTag;
         this.loadInIcons();
-        this.updateOutsideTemp(41.52,87.38);
+        this.updateOutsideTemp(41.52,-87.38);
     }
 });
