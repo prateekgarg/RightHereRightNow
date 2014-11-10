@@ -7,7 +7,7 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script src="App/js/ClassExtension.js"></script>
-    <script src="App/js/map/MapApp.js"></script>
+    <script src="App/js/map/map.js"></script>
     <script src="App/js/weather/suncalc.js"></script>
     <script src="App/js/weather/USWeatherApp.js"></script>
     <script src="App/js/map/MyCustomLayer.js"></script>
@@ -19,7 +19,7 @@
         var usWeatherApp;
         var busApp;
         function init(){
-            mapApp = new MapApp;
+            mapApp = new mapClass;
             mapApp.init();
 
             usWeatherApp = new USWeatherApp;
