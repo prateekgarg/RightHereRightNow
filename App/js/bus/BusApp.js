@@ -4,7 +4,8 @@
 var BusApp = Class.extend({
     construct: function () {
 
-        this.phpProxy = "/ba-simple-proxy.php?url=";
+        //
+        this.phpProxy = "/cs424proj3/App/php/ba-simple-proxy.php?url=";
         this.baseUrl = "http://www.ctabustracker.com/bustime/api/v1/";
         this.apiKey = "?key=8xwSBP7tg2XKh79UV3Us3UvF4";
         this.time = null;
@@ -48,58 +49,62 @@ var BusApp = Class.extend({
     fetchTime: function() {
         var requestUrl = this.phpProxy + this.baseUrl + "gettime" + this.apiKey;
 
-        // TODO - node js express, to get around the exeption
-
         var xhr = new XMLHttpRequest();
         xhr.open('GET', requestUrl);
         xhr.onload = function() {
-            var responce = xhr.responseText;
-            console.log(responce);
+            var response = xhr.responseText;
+            var responseJSON = jQuery.parseJSON( response );
+            var contentsXML = jQuery.parseXML(responseJSON.contents);
+            //var contentsJSON = xml2json(contentsXML);
+            this.time = contentsXML;
         };
         xhr.send();
-
-
-        /*
-        d3.xml(requestUrl, function(error, data){
-
-            console.log(data);
-            this.time = data;
-
-        });
-        */
     },
 
     /////////////////////////////////////////////////////////////
     fetchVehiclesByVid: function(vid) {
-        var requestUrl = this.baseUrl + "getvehicles" + this.apiKey + "?vid=" + vid;
+        var requestUrl = this.baseUrl + "getvehicles" + this.apiKey + "&vid=" + vid;
 
-        d3.xml(requestUrl, function(error, data){
-
-            console.log(data);
-
-        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', requestUrl);
+        xhr.onload = function() {
+            var response = xhr.responseText;
+            var responseJSON = jQuery.parseJSON( response );
+            var contentsXML = jQuery.parseXML(responseJSON.contents);
+            //var contentsJSON = xml2json(contentsXML);
+            // TODO - draw buses
+        };
+        xhr.send();
     },
 
     fetchVehiclesByRt: function(rt) {
-        var requestUrl = this.baseUrl + "getvehicles" + this.apiKey + "?rt=" + rt;
+        var requestUrl = this.baseUrl + "getvehicles" + this.apiKey + "&rt=" + rt;
 
-        d3.xml(requestUrl, function(error, data){
-
-            console.log(data);
-
-        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', requestUrl);
+        xhr.onload = function() {
+            var response = xhr.responseText;
+            var responseJSON = jQuery.parseJSON( response );
+            var contentsXML = jQuery.parseXML(responseJSON.contents);
+            //var contentsJSON = xml2json(contentsXML);
+            // TODO - draw buses
+        };
+        xhr.send();
     },
 
     /////////////////////////////////////////////////////////////
     fetchRoutes: function (){
-        var requestUrl = this.baseUrl + "getroutes" + this.apiKey;
+        var requestUrl = this.phpProxy + this.baseUrl + "getroutes" + this.apiKey;
 
-        d3.xml(requestUrl, function(error, data){
-
-            console.log(data);
-            this.routes = data;
-
-        });
-
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', requestUrl);
+        xhr.onload = function() {
+            var response = xhr.responseText;
+            var responseJSON = jQuery.parseJSON( response );
+            var contentsXML = jQuery.parseXML(responseJSON.contents);
+            //var contentsJSON = xml2json(contentsXML);
+            this.routes = contentsXML;
+        };
+        xhr.send();
     }
 });
