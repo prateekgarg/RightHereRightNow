@@ -355,7 +355,7 @@ this.lat1 = 0;
 
             this.getUpdatedData("http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",               this.overlayLayers[2], 2);
             //this.getFoodData("http://data.cityofchicago.org/resource/4ijn-s7e5.json?$order=inspection_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",               this.overlayLayers[4], 4);
-            $.getJSON(url, jsonHolder, callBack);
+            //$.getJSON(url, jsonHolder, callBack);
             this.DivvyJson("http://www.divvybikes.com/stations/json", 0,0);
         }
 

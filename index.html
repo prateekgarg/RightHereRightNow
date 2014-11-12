@@ -13,16 +13,22 @@
     <script src="Res/js/weather/USWeatherApp.js"></script>
     <script src="Res/js/map/MyCustomLayer.js"></script>
     <script src="Res/js/ajax/ajaxFile.js"></script>
-<script src="Res/libraries/Leaflet-Routing-machine.min.js"></script>
+    <script src="Res/libraries/Leaflet-Routing-machine.min.js"></script>
+    <script src="Res/js/bus/BusApp.js"></script>
+    <script src="Res/libraries/jquery.xml2json.js"></script>
     <script>
         var mapApp;
         var usWeatherApp;
+        var busApp;
         function init(){
             mapApp = new mapClass;
             mapApp.init();
 
             usWeatherApp = new USWeatherApp;
             usWeatherApp.init(1,"#viz");
+
+            busApp = new BusApp();
+            busApp.init();
         }
     </script>
 </head>
