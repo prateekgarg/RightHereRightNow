@@ -152,6 +152,9 @@ var mapClass = Class.extend({
     },
 
     /////////////////////////////////////////////////////////////
+    // Junior has edit this function. Want to create a new class
+    // everytime the data is updated.
+    ////////////////////////////////////////////////////////////
 
     getUpdatedData: function(url, layer, mode){
         var query = url;
@@ -163,7 +166,29 @@ var mapClass = Class.extend({
             {
                 bigCollection = bigCollection.concat(collection);
                 callback(bigCollection, layer, mode);
+                // Potholes
+                if( mode == 0){
+                    // Want to call a function here to display current data
+                    //console.log(bigCollection.length);
+                    var pothole_length = bigCollection.length;
+                    //console.log(pothole_length);
+                    //this.make_chart( pothole_length, "body", colors);
+                    viz = new V_Data;
+                    // Would like to pass current pothole data along
+                    viz.visualizationit( pothole_length);
+                }
+                // Vehicles
+                else if( mode == 1){
+
+                }
+                // Street Lights
+                else if( mode == 2){
+
+                }
+                console.log(bigCollection.length);
             }
+            // Implement bar graph. Probably in the wrong space and not implemented the way Prateek wants but functionality
+            // before neatness!
         );
     },
 
@@ -193,7 +218,7 @@ var mapClass = Class.extend({
                }
             }).addTo(newLayer);
         }
-else {
+        else {
             L.geoJson(geoJsonData, {
                 filter: function (feature, layers) {
                     var status = feature.properties.status;
@@ -344,7 +369,7 @@ else {
                     this.MainMap.removeLayer(this.m2);
                 }
             }
-this.lat1 = 0;
+            this.lat1 = 0;
             this.lat2 = 0;
             this.long1 = 0;
             this.long2 = 0;
@@ -358,8 +383,9 @@ this.lat1 = 0;
             //$.getJSON(url, jsonHolder, callBack);
             this.DivvyJson("http://www.divvybikes.com/stations/json", 0,0);
         }
-
     },
+
+    //////////////////////////////////////////////////
 
     init: function(){
         this.customMapLayer = new MyCustomLayer;        //Custom Layer did not work... remove this before submission
@@ -409,10 +435,10 @@ this.lat1 = 0;
         this.MainMap.on('click', function(e){
             functionCallHere(e.latlng.lat, e.latlng.lng, e.latlng);
         });
-
-
-
     },
+
+    ////////////////////////////////////////////////////
+
     MapClicked: function(latitude, longitude, latlong){
 
         var counter = this.popupCounter;
@@ -457,16 +483,25 @@ this.lat1 = 0;
 
 
     },
+
+    /////////////////////////////////////////
+
     limitView: function(){
         this.campusFlag = true;
         this.areaFlag = false;
         this.refreshData();
     },
+
+    ///////////////////////////////////////////
+
     fullView: function(){
         this.campusFlag = false;
         this.areaFlag = false;
         this.refreshData();
     },
+
+    //////////////////////////////////////////
+
     drawRect: function(){
         var x1 = this.lat1,
             x2 = this.lat2,
@@ -484,6 +519,9 @@ this.lat1 = 0;
         //this.Rect.addTo(this.MainMap);
         //this.customMapLayer.addTo(this.MainMap);
     },
+
+    ///////////////////////////////////////////////////
+
     getStationOnMap: function(json, layerVariable){
 
         var markerOptions = {
@@ -504,6 +542,9 @@ this.lat1 = 0;
         ).addTo(layerVariable);
         //layerVariable.addTo(this.MainMap);
     },
+
+    ///////////////////////////////////////////// - Hardik
+
     DivvyData: function(data, newLayer)
     {
         //console.log("Divvy Query Returns:")
@@ -515,7 +556,7 @@ this.lat1 = 0;
 
         var stationList = data.stationBeanList;
         var reqGeo = this.convertDivvyJsonToGeoJson(stationList);
-        console.log(this.incrementer++);
+        //console.log(this.incrementer++);
         this.getStationOnMap(reqGeo, this.overlayLayers[3]);
     },
 

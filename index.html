@@ -16,6 +16,7 @@
     <script src="Res/libraries/Leaflet-Routing-machine.min.js"></script>
     <script src="Res/js/bus/BusApp.js"></script>
     <script src="Res/libraries/jquery.xml2json.js"></script>
+    <script src="Res/js/v_data/v_data.js"></script>
     <script>
         var mapApp;
         var usWeatherApp;
@@ -27,16 +28,19 @@
             usWeatherApp = new USWeatherApp;
             usWeatherApp.init(1,"#viz");
 
-            busApp = new BusApp();
-            busApp.init();
+            //busApp = new BusApp();
+            //busApp.init();
         }
     </script>
 </head>
 <body onload="init();">
 
-<div id="container" style="position: absolute;width: 100%;height: 95%">
-    <div id="map" style="height: 90%;"></div>
-<div id="buttonsContainer"  style="position:relative;float:left;height:10%;width: 100%">
+<!-- Created another container to show graphs for the time being. Nov 12, 2014 1609 -->
+<!-- Containers were changed!!!!! -->
+<div id="container" style="position:absolute; width:100%; height:95%">
+    <div id="map" style="position:relative; float:left; width:50%; height:90%;"></div>
+    <div id="graphs" style="position:relative; float:right; width:50%; height:90%"></div>
+<div id="buttonsContainer" style="position:relative; float:left; height:10%; width:100%">
 
         <div id="controlsContainer" style="position: relative;float: left; width: 100%;height: 5%">
             <div onclick="mapApp.limitView()"
