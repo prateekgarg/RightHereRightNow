@@ -30,8 +30,8 @@ var mapClass = Class.extend({
         this.popupCounter = 0;
        // this.UicTopLeftCoordinate = [41.8757207,-87.6603623];
         //this.MuseumCampusCoordiantes = [41.8577444,-87.6112346];
-        this.customMapLayer = null;
-        this.customMapLayer2 = null
+        //this.customMapLayer = null;
+       // this.customMapLayer2 = null
         this.campusFlag = false;
         this.m1 = null;
         this.m2 = null ;
@@ -41,8 +41,12 @@ var mapClass = Class.extend({
         this.long2 = 0;
         this.Rect = null;
         this.areaFlag = false;
-        this.divvyData = null;
-        this.divvyMarkers = [];
+       // this.divvyData = null;
+       // this.divvyMarkers = [];
+        this.lastUpdatePotholes = null;
+        this.lastUpdateStreetlights = null;
+        this.lastUpdateAbandonedVehicles = null;
+        this.incrementer = 0;
     },
 
     /////////////////////////////////////////////////////////////
@@ -83,6 +87,7 @@ var mapClass = Class.extend({
                 else GJson = GJson + 0.00000 + "," + 0.00000 + "]},";
                 GJson = GJson + propertiesLabel + ":{";
                 for( obj in d ){
+
                     if(obj !== "location" ||(obj != "latitude" && obj != "longitude")){
                         GJson = GJson + '"' + obj + '":"' + d[obj] + '",';
                         continue;
@@ -118,20 +123,17 @@ var mapClass = Class.extend({
 
     /////////////////////////////////////////////////////////////
 
-    setMap: function(whichMap) {
+    setMap: function(setWhichMap) {
         var selectedOnes = null;
 
-        if (whichMap === 1)
-        {
+        if (setWhichMap === 1){
             this.MainMap.removeLayer(this.mapLayer2);
             this.MainMap.removeLayer(this.mapLayer3);
             this.mapLayer1.addTo(this.MainMap);
-
             selectedOnes = this.svg.selectAll("text");
             selectedOnes.style("fill", "white");
         }
-        else if (whichMap == 2)
-        {
+        else if (setWhichMap == 2){
             this.MainMap.removeLayer(this.mapLayer1);
             this.MainMap.removeLayer(this.mapLayer3);
             this.mapLayer2.addTo(this.MainMap);
@@ -172,8 +174,9 @@ var mapClass = Class.extend({
         var today = this.today;
 
         var geoJsonData = this.jsonToGeoJson(collection);
-        console.log(geoJsonData);
-        var geojsonMarkerOptions = {
+       //
+       // console.log(geoJsonData);
+        var markerOptions = {
             radius: 8,
             weight: 1,
             opacity: 1,
@@ -183,7 +186,7 @@ var mapClass = Class.extend({
             L.geoJson(geoJsonData, {
 
                 pointToLayer: function (feature, latlng) {
-                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                    return L.circleMarker(latlng, markerOptions);
                 },
                 style: function (feature) {
                     return "green";
@@ -196,11 +199,12 @@ else {
                     var status = feature.properties.status;
                     if (status === "STATUS") return false;
                     var myDate = parseDate(feature.properties.creation_date);
+
                     var daysAgo = (today - myDate) / 1000 / 60 / 60 / 24;
                     return daysAgo <= 31;
                 },
                 pointToLayer: function (feature, latlng) {
-                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                    return L.circleMarker(latlng, markerOptions);
                 },
                 style: function (feature) {
                     var myDate = parseDate(feature.properties.creation_date);
@@ -208,27 +212,52 @@ else {
                     var inLastWeek = 0;
                     if (daysAgo <= 7) inLastWeek = 1;
                     if (mode === 0) {
-                        switch (inLastWeek) {
-                            case 1:
-                                return {color: "#050A4A"};
-                            case 0:
-                                return {color: "#4A0522"};
+                        if (this.lastUpdatePotholes === null){
+                            this.lastUpdatePotholes = myDate;
+                        }
+                        else if (myDate > this.lastUpdatePotholes){
+                            return {color: "E31010"};
+                        }
+                        else {
+                            switch (inLastWeek) {
+                                case 1:
+                                    return {color: "#050A4A"};
+                                case 0:
+                                    return {color: "#4A0522"};
+                            }
                         }
                     } else if (mode === 1) {
-                        switch (inLastWeek) {
-                            case 1:
-                                return {color: "#054A0E"};
-                            case 0:
-                                return {color: "#10DE2B"};
+                        if (this.lastUpdateAbandonedVehicles === null) {
+                            this.lastUpdateAbandonedVehicles = myDate;
                         }
+                        else if (myDate > this.lastUpdateAbandonedVehicles) {
+                            return {color: "F50505"};
+                        }
+                        else{
+                            switch (inLastWeek) {
+                                case 1:
+                                    return {color: "#054A0E"};
+                                case 0:
+                                    return {color: "#10DE2B"};
+                            }
+                    }
                     } else if (mode === 2) {
-                        switch (inLastWeek) {
-                            case 1:
-                                return {color: "#820F96"};
-                            case 0:
-                                return {color: "#0B010D"};
+                        if (this.lastUpdateStreetlights === null){
+                            this.lastUpdateStreetlights = myDate;
+                        }
+                        else if(myDate > this.lastUpdateStreetlights){
+                            return {color: "F50505"};
+                        }
+                        else {
+                            switch (inLastWeek) {
+                                case 1:
+                                    return {color: "#820F96"};
+                                case 0:
+                                    return {color: "#0B010D"};
+                            }
                         }
                     }
+
                     else {
                         return {color: "#BBBBBB"};
                     }
@@ -271,6 +300,10 @@ else {
             this.getUpdatedData(
                 "http://data.cityofchicago.org/resource/zuxi-7xem.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
                 ","+this.long2 +")&$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca", this.overlayLayers[2], 2);
+            this.getFoodData(
+                "http://data.cityofchicago.org/resource/4ijn-s7e5.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
+                ","+this.long2 +")&$order=inspection_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca", this.overlayLayers[4], 4);
+
             this.DivvyJson("http://www.divvybikes.com/stations/json", this.lat1, this.long1, this.lat2, this.long2);
 
 
@@ -282,20 +315,17 @@ else {
             this.overlayLayers[3].clearLayers();
 
 
-            this.getUpdatedData(
-                "http://data.cityofchicago.org/resource/7as2-ds3y.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
-                ","+this.long2 +")&$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",
-                this.overlayLayers[0], 0);
+            this.getUpdatedData("http://data.cityofchicago.org/resource/7as2-ds3y.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
+                ","+this.long2 +")&$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca", this.overlayLayers[0], 0);
 
-            this.getUpdatedData(
-                "http://data.cityofchicago.org/resource/3c9v-pnva.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
-                ","+this.long2 +")&$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",
-                this.overlayLayers[1], 1);
+            this.getUpdatedData("http://data.cityofchicago.org/resource/3c9v-pnva.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
+                ","+this.long2 +")&$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca", this.overlayLayers[1], 1);
 
-            this.getUpdatedData(
-                "http://data.cityofchicago.org/resource/zuxi-7xem.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
-                ","+this.long2 +")&$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",
-                this.overlayLayers[2], 2);
+            this.getUpdatedData("http://data.cityofchicago.org/resource/zuxi-7xem.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
+                ","+this.long2 +")&$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",this.overlayLayers[2], 2);
+            this.getFoodData("http://data.cityofchicago.org/resource/4ijn-s7e5.json?$where=within_box(location,"+this.lat1+","+ this.long1 +","+this.lat2+
+            ","+this.long2 +")&$order=inspection_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",this.overlayLayers[4], 4);
+
             this.DivvyJson("http://www.divvybikes.com/stations/json", this.lat1, this.long1, this.lat2, this.long2);
         }
         else if(!this.areaFlag && !this.campusFlag) {
@@ -324,7 +354,8 @@ this.lat1 = 0;
             this.getUpdatedData("http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",                this.overlayLayers[1], 1);
 
             this.getUpdatedData("http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",               this.overlayLayers[2], 2);
-
+            //this.getFoodData("http://data.cityofchicago.org/resource/4ijn-s7e5.json?$order=inspection_date DESC&$$app_token=xjk2V2sZjI0r5ZuTUNSE0rLca",               this.overlayLayers[4], 4);
+            $.getJSON(url, jsonHolder, callBack);
             this.DivvyJson("http://www.divvybikes.com/stations/json", 0,0);
         }
 
@@ -352,7 +383,7 @@ this.lat1 = 0;
         this.overlayLayers.push(new L.LayerGroup());
         this.overlayLayers.push(new L.LayerGroup());
         this.overlayLayers.push(new L.LayerGroup());
-
+        this.overlayLayers.push(new L.LayerGroup());
         var baseLayers = {
             "Aerial"  : this.mapLayer1,
             "Map"	  : this.mapLayer2,
@@ -363,8 +394,10 @@ this.lat1 = 0;
             "Potholes"  			: this.overlayLayers[0],
             "Abandoned Vehicles"	: this.overlayLayers[1],
             "Street Lights" 		: this.overlayLayers[2],
-            "Divvy Stands"          : this.overlayLayers[3]
+            "Divvy Stands"          : this.overlayLayers[3],
+            "Food Inspection"       : this.overlayLayers[4]
         };
+        setInterval(this.refreshData(), 60 * 1000);
         this.refreshData();
         L.control.layers(baseLayers, overlays).addTo(this.MainMap);
 
@@ -376,6 +409,8 @@ this.lat1 = 0;
         this.MainMap.on('click', function(e){
             functionCallHere(e.latlng.lat, e.latlng.lng, e.latlng);
         });
+
+
 
     },
     MapClicked: function(latitude, longitude, latlong){
@@ -397,6 +432,7 @@ this.lat1 = 0;
             this.m2.addTo(this.MainMap);
 
             counter = 3;
+            console.log("Counter = " + counter);
             this.popupCounter = counter;
             this.areaFlag = true;
             this.campusFlag = false;
@@ -410,7 +446,13 @@ this.lat1 = 0;
 
             this.MainMap.removeLayer(this.Rect);
             counter = 0;
+            console.log("Counter2 = " + counter);
             this.popupCounter = 0;
+            this.Rect.hide();
+            $('path').remove('.leaflet-clickable');
+            //$('div').remove('.leaflet-marker-pane');
+            $('img').remove('.leaflet-marker-icon');
+            $('img').remove('.leaflet-marker-shadow');
         }
 
 
@@ -431,13 +473,20 @@ this.lat1 = 0;
             y1 = this.long1,
             y2 = this.long2;
         latlngs = [[x1,y1],[x2,y1],[x2,y2],[x1,y2],[x1,y1]];
-        this.Rect = L.polyline(latlngs, {color: 'red'});
+        this.Rect = L.Routing.control({
+            waypoints: [L.latLng(x1,y1), L.latLng(x2,y2)]
+        });
+
         this.Rect.addTo(this.MainMap);
+        this.Rect.show();
+        //this.MainMap.removeLayer(this.Rect);
+        //this.Rect = L.polyline(latlngs, {color: 'red'});
+        //this.Rect.addTo(this.MainMap);
         //this.customMapLayer.addTo(this.MainMap);
     },
     getStationOnMap: function(json, layerVariable){
 
-        var geojsonMarkerOptions = {
+        var markerOptions = {
             radius: 8,
             weight: 1,
             opacity: 1,
@@ -446,7 +495,7 @@ this.lat1 = 0;
         L.geoJson(json, {
                 pointToLayer: function (feature, latlng) {
 
-                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                    return L.circleMarker(latlng, markerOptions);
                 },
                 style: function(features){
                     return "#A32164";
@@ -466,7 +515,7 @@ this.lat1 = 0;
 
         var stationList = data.stationBeanList;
         var reqGeo = this.convertDivvyJsonToGeoJson(stationList);
-        console.log(reqGeo);
+        console.log(this.incrementer++);
         this.getStationOnMap(reqGeo, this.overlayLayers[3]);
     },
 
@@ -521,6 +570,10 @@ this.lat1 = 0;
         //console.log(geoJson);
         geoJson = $.parseJSON(geoJson + "]}");
         return geoJson;
+    },
+    getFoodData: function(url, layerName, mode){
+        var jsonHolder = null;
+
     }
 
 });
