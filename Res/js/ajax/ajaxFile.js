@@ -48,3 +48,35 @@ function requestCrossDomainJSON( site, callback ) {
     // Pass a defined function to prevent cache-busting.
     $.getJSON(yql, cbFunc );
 }
+
+function requestxmldata(site, callback) {
+    if (!site) {
+        alert('No site was passed.');
+        return false;
+    }
+
+    var yql = 'http://query.yahooapis.com/v1/public/yql?'
+        + 'q=' + encodeURIComponent('select * from xml where url=@url')
+        + '&url=' + encodeURIComponent(site)
+        + '&format=xml&callback=?';
+
+    function cbFunc(data) {
+            if (typeof callback === 'function') {
+                var log = data.results;
+                //console.log(log);
+                var x2js = new X2JS();
+                var jsonObj = x2js.xml_str2json(log);
+                //console.log(jsonObj);
+                callback(jsonObj);
+                }
+            else throw new Error('Nothing returned from getXML.');
+         }
+        $.getJSON(yql, cbFunc);
+}
+var xmlsite = "http://www.ctabustracker.com/bustime/api/v1/gettime?key=8xwSBP7tg2XKh79UV3Us3UvF4";
+requestxmldata(xmlsite, test);
+
+function test(data)
+    {
+        console.log(data);
+    }
