@@ -107,6 +107,7 @@ var BusApp = Class.extend({
                 BusApp.busPackCount--;
                 if (BusApp.busPackCount == 0) {
                     console.log("All buses fetched");
+                    console.log("All buses: " + BusApp.busPackages);
                 }
             };
 
