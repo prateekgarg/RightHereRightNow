@@ -12,6 +12,7 @@ function ajaxRequest(callback, actionUrl) {
         }
     });
 }
+
 // Accepts a url and a callback function to run.
 function requestCrossDomainJSON( site, callback ) {
     //alert("Ajax called");         this alert came, so this function is called and reached
@@ -49,34 +50,30 @@ function requestCrossDomainJSON( site, callback ) {
     $.getJSON(yql, cbFunc );
 }
 
+
 function requestxmldata(site, callback) {
     if (!site) {
         alert('No site was passed.');
         return false;
     }
 
-    var yql = 'http://query.yahooapis.com/v1/public/yql?'
-        + 'q=' + encodeURIComponent('select * from xml where url=@url')
-        + '&url=' + encodeURIComponent(site)
-        + '&format=xml&callback=?';
+        var yql = 'http://query.yahooapis.com/v1/public/yql?'
+            + 'q=' + encodeURIComponent('select * from xml where url=@url')
+            + '&url=' + encodeURIComponent(site)
+            + '&format=json&diagnostics=true&callback=?';
 
-    function cbFunc(data) {
+        function cbFunc(data) {
             if (typeof callback === 'function') {
-                var log = data.results;
+                var log = data.query.results;
                 //console.log(log);
-                var x2js = new X2JS();
-                var jsonObj = x2js.xml_str2json(log);
+                //var x2js = new X2JS();
+                //var jsonObj = x2js.xml_str2json(log);
                 //console.log(jsonObj);
-                callback(jsonObj);
-                }
+                callback(log);
+            }
             else throw new Error('Nothing returned from getXML.');
-         }
-        $.getJSON(yql, cbFunc);
-}
-var xmlsite = "http://www.ctabustracker.com/bustime/api/v1/gettime?key=8xwSBP7tg2XKh79UV3Us3UvF4";
-requestxmldata(xmlsite, test);
+        }
 
-function test(data)
-    {
-        console.log(data);
-    }
+        $.getJSON(yql, cbFunc);
+
+}

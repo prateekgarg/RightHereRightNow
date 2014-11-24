@@ -1,0 +1,163 @@
+
+<html lang="en">
+<head>
+    <style>
+        .axis {
+            font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+    </style>
+    <link rel="stylesheet" href="Res/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="Res/css/bootstrap.min.css" />
+    <script src="Res/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="Res/css/leaflet-routing-machine.css" />
+    <link href="Res/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <title>Right Here Right Now</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+
+    <link rel="stylesheet" href="Res/css/leaflet.awesome-markers.css" />
+    <link rel="stylesheet" href="Res/css/leaflet-sidebar.css" />
+
+<style>
+    .MainMap{
+        display: block;
+    }
+</style>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+    <script src="Res/libraries/leaflet.awesome-markers.min.js"></script>
+    <script src="Res/js/ClassExtension.js"></script>
+    <script src="Res/js/map/map.js"></script>
+    <script src="Res/js/weather/suncalc.js"></script>
+    <script src="Res/js/weather/USWeatherApp.js"></script>
+    <script src="Res/js/map/MyCustomLayer.js"></script>
+    <script src="Res/js/ajax/ajaxFile.js"></script>
+    <script src="Res/js/jquery-sidebar.js"></script>
+    <script src="Res/js/leaflet-sidebar.js"></script>
+    <script src="Res/js/vis/visApp.js"></script>
+
+    <script src="Res/libraries/Leaflet-Routing-machine.min.js"></script>
+    <script>
+        var mapApp;
+        var usWeatherApp;
+        var VisApp;
+        function init(){
+            mapApp = new mapClass;
+            mapApp.init();
+
+            usWeatherApp = new USWeatherApp;
+            usWeatherApp.init(1,"#viz");
+
+            VisApp = new visApp;
+            VisApp.startup("#ChicagoCrimeData");
+            VisApp.startup("#barchart2");
+            setInterval(function(){mapApp.refreshData()}, 60000);
+            //VisApp = document.getElementsByClassName("leaflet-top leaflet-right")[0].style.display = 'none';
+
+
+        }
+        function showHideWeather(){
+            var weatherStatus = document.getElementsByClassName("MainMap");
+            if (weatherStatus[0].style.display !== 'none'){
+                weatherStatus[0].style.display = 'none';
+            }
+            else{
+                weatherStatus[0].style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body onload="init();">
+
+<div id="container" style="position: absolute;width: 98%;height: 95%">
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs
+        <ul class="sidebar-tabs" role="tablist" style="position:relative;height: 60%"></ul>-->
+        <div class="sidebar-tabs" role="tablist" style="position:relative;height: 60%"></div>
+        <ul class="sidebar-tabs" role="tablist" style="position:relative;height: 40%">
+            <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+            <li><a href="#profile" role="tab"><i class="fa fa-bar-chart"></i></a></li>
+            <li><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+            <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content active">
+            <div class="sidebar-pane" id="home">
+                <h1>Layer Controls</h1>
+                <div class="btn-group btn-group-justified" role="group" >
+
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" onclick="mapApp.limitView()">UIC to Museum Campus
+                            </button>
+                    </div><br>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" onclick="mapApp.fullView()">Overall Chicago
+                    </button>
+                    </div><br/>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default"  onclick="mapApp.refreshData()">Refresh Map
+                    </button></div><br>
+                </div>
+                <hr>
+                <div class="btn-group btn-group-justified" role="group" >
+
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" onclick="showHideWeather()">Show/Hide Weather
+                        </button>
+                    </div><br>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" onclick="mapApp.setMap(1)">Satellite View
+                        </button>
+                    </div><br/>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default"  onclick="mapApp.setMap(3)">Street View
+                        </button></div><br>
+                </div>
+                <hr>
+                <div role="group" >
+
+                    <div role="group">
+                        <input type="radio" onclick="mapApp.boxFlag = true" value="drawBox" checked="checked">Draw Box
+
+                    </div>
+                    <div role="group">
+                        <input type="radio" onclick="mapApp.boxFlag = false" value="drawPath">Draw Path
+
+                    </div>
+
+                </div>
+                 </div>
+            <div class="sidebar-pane" id="profile">
+                <div id="crimeDataContainer" style="position: relative;float:left;width:100%;height:95%;">
+                    <div id="ChicagoCrimeData" style="position: relative;float:left;width:100%;height:50%;"></div>
+                    <div id="barchart2" style="position: relative;float:left;width:100%;height:50%;"></div>
+                </div>
+                <div id="dataVisContainer" style="position: relative;float:left;width:100%;height:95%;">
+                    <div id="ChicagoData" style="position: relative;float:left;width:100%;height:45%;"></div>
+                    <div id="SelectionData" style="position: relative;float:left;width:100%;height:45%;"></div>
+                </div>
+            </div>
+            <div class="sidebar-pane" id="messages"><h1>Messages</h1></div>
+            <div class="sidebar-pane" id="settings"><h1>Settings</h1>
+
+
+            </div>
+        </div>
+    </div>
+    <div id="map" class="sidebar-map" style="height: 100%;"></div>
+    </div>
+</div>
+</body>
+
+</html>
