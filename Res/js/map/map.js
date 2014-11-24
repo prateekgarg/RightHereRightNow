@@ -244,14 +244,14 @@ var mapClass = Class.extend({
                     if (daysAgo <= 7) {
                         return L.marker(latlng, {
                             icon: myIcon
-                        });
+                        }).bindPopup("Status: " + feature.properties.status + '<br>Where: ' + feature.properties.street_address, {autopan : true});
                     }
                     else if (daysAgo <= 31) {
 
                         return L.marker(latlng, {
                             icon: myIcon,
                             opacity: 0.7
-                        });
+                        }).bindPopup("Status: " + feature.properties.status + '<br>Where: ' + feature.properties.street_address, {autopan : true});
                     }
 
                 }
@@ -284,14 +284,14 @@ var mapClass = Class.extend({
                         return L.marker(latlng, {
                             icon: myIcon
 
-                        });
+                        }).bindPopup("Status: " + feature.properties.status + '<br>Where: ' + feature.properties.street_address, {autopan : true});
                     }
                     else if (daysAgo <= 31) {
 
                         return L.marker(latlng, {
                             icon: myIcon,
                             opacity: 0.7
-                        });
+                        }).bindPopup("Status: " + feature.properties.status + '<br>Where: ' + feature.properties.street_address, {autopan : true});
                     }
 
                 }
@@ -303,7 +303,7 @@ var mapClass = Class.extend({
 
             var myIcon = L.icon({
                 iconUrl: 'Res/icons/streetlightM.png',
-                iconSize: [25, 25],
+                iconSize: [35, 35],
                 //iconAnchor: [22, 94],
                 popupAnchor: [-3, -76]
 
@@ -326,7 +326,7 @@ var mapClass = Class.extend({
                     if (daysAgo <= 7) {
                         return L.marker(latlng, {
                             icon: myIcon
-                        });
+                        }).bindPopup("Status: " + feature.properties.status + '<br>Where: ' + feature.properties.street_address, {autopan : true});
                     }
                     else if (daysAgo <= 31) {
 
@@ -334,7 +334,7 @@ var mapClass = Class.extend({
                             icon: myIcon,
                             opacity: 0.7
                             //color: 'red'
-                        });
+                        }).bindPopup("Status: " + feature.properties.status + '<br>Where: ' + feature.properties.street_address, {autopan : true});
                     }
 
                 }
@@ -412,7 +412,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
                                 case "ASSAULT":
                                 case "HOMICIDE":
@@ -425,7 +425,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
                                 case "CRIMINAL DAMAGE":
                                 case "CRIMINAL TRESPASS":
@@ -436,7 +436,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
 
                                 case "NARCOTICS":
@@ -447,7 +447,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
 
                                 case "DECEPTIVE PRACTICE":
@@ -458,7 +458,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
 
                                 default:
@@ -469,7 +469,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
                             }
                         }
@@ -489,7 +489,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
                                 case "ASSAULT":
                                 case "HOMICIDE":
@@ -502,7 +502,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
                                 case "CRIMINAL DAMAGE":
                                 case "CRIMINAL TRESPASS":
@@ -513,7 +513,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
 
                                 case "NARCOTICS":
@@ -524,7 +524,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
 
                                 case "DECEPTIVE PRACTICE":
@@ -535,7 +535,7 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
 
                                 default:
@@ -546,20 +546,11 @@ var mapClass = Class.extend({
                                             prefix: 'fa',
                                             iconColor: 'white'
                                         })
-                                    });
+                                    }).bindPopup("Crime: " + obj.properties.primary_type + '<br>Subtype: ' + status);
                                     break;
                             }
                         }
-                        else {
-                            return L.marker(latlng, {
-                                icon: L.AwesomeMarkers.icon({
-                                    icon: 'thumbs-o-down',
-                                    markerColor: 'orange',
-                                    prefix: 'fa',
-                                    iconColor: 'black'
-                                })
-                            });
-                        }
+
                     }
 
                 }
@@ -821,13 +812,15 @@ var mapClass = Class.extend({
         latlngs = [[x1, y1], [x2, y1], [x2, y2], [x1, y2], [x1, y1]];
 
         this.Rect = L.Routing.control({
-            waypoints: [L.latLng(x1, y1), L.latLng(x2, y2)]
+            waypoints: [L.latLng(x1, y1), L.latLng(x2, y2)],
+            fitSelectedRoutes: false
         });
 
         this.Rect.addTo(this.MainMap);
-        //$('div').hide('.leaflet-routing-container');
-        this.Rect.hide();
+        //$('div').hide('.leaflet-routing-container-hide');
+
         L.polyline(latlngs, {color: 'red'}).addTo(this.MainMap);
+        //this.Rect.hide();
 
     },
     getStationOnMap: function (json, layerVariable) {
