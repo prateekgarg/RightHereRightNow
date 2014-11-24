@@ -1,0 +1,57 @@
+
+<html lang="en">
+<head>
+    <title>Right Here Right Now</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+    <link rel="stylesheet" href="Res/css/leaflet-routing-machine.css" />
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="Res/js/ClassExtension.js"></script>
+    <script src="Res/js/map/map.js"></script>
+    <script src="Res/js/weather/suncalc.js"></script>
+    <script src="Res/js/weather/USWeatherApp.js"></script>
+    <script src="Res/js/map/MyCustomLayer.js"></script>
+    <script src="Res/js/ajax/ajaxFile.js"></script>
+    <script src="Res/libraries/Leaflet-Routing-machine.min.js"></script>
+    <script src="Res/js/bus/BusApp.js"></script>
+    <script src="Res/libraries/jquery.xml2json.js"></script>
+    <script src="Res/js/v_data/v_data.js"></script>
+    <script>
+        var mapApp;
+        var usWeatherApp;
+        var busApp;
+        function init(){
+            mapApp = new mapClass;
+            mapApp.init();
+
+            usWeatherApp = new USWeatherApp;
+            usWeatherApp.init(1,"#viz");
+
+            //busApp = new BusApp();
+            //busApp.init();
+        }
+    </script>
+</head>
+<body onload="init();">
+
+<!-- Created another container to show graphs for the time being. Nov 12, 2014 1609 -->
+<!-- Containers were changed!!!!! -->
+<div id="container" style="position:absolute; width:100%; height:95%">
+    <div id="map" style="position:relative; float:left; width:50%; height:90%;"></div>
+    <div id="graphs" style="position:relative; float:right; width:50%; height:90%"></div>
+<div id="buttonsContainer" style="position:relative; float:left; height:10%; width:100%">
+
+        <div id="controlsContainer" style="position: relative;float: left; width: 100%;height: 5%">
+            <div onclick="mapApp.limitView()"
+                 style="position: relative;float: left;border: solid thin black">UIC Campus to Museum Campus</div>
+            <div onclick="mapApp.fullView()"
+                 style="position: relative;float: left;border: solid thin black">Overall Chicago</div>
+            <div onclick="mapApp.refreshData()"
+                 style="position: relative;float: left;border: solid thin black">Refresh Map</div>
+        </div>
+    </center>
+    </div>
+</div>
+</body>
+</html>
