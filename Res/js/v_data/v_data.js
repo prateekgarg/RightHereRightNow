@@ -6,8 +6,8 @@ var V_Data = Class.extend({
 	
 	construct: function(){
 
-        this.barMargin = {top: 100, right: 20, bottom: 100, left: 100};
-        this.barCanvasWidth = 600;
+        this.barMargin = {top: 100, right: 20, bottom: 100, left: 70};
+        this.barCanvasWidth = 400;
         this.barCanvasHeight = 200;
 
         this.barWidth = 400;
@@ -122,13 +122,14 @@ var V_Data = Class.extend({
 		//this.pieChart( pothole_length);
         //console.log("a: " + a + ",b: " + b);
         //this.BarChart2(a,b,c,d,e,f);
+        // Overall Data
+        this.BarChart2(a,b,c,d,e,f);
         // Potholes
         this.BarChart1(a,b,0);
         // Vehicles
         this.BarChart1(c,d,1);
         // Lights
-        //this.BarChart1(e,f,2);
-        //this.BarChart2(a,b,c,d,e,f);
+        this.BarChart1(e,f,2);
 	},
 
 	///////////////////////////////////////
@@ -137,7 +138,7 @@ var V_Data = Class.extend({
 	removeCharts: function(){
 
 		//d3.select("svg").remove;
-		d3.select("#ChicagoCrimeData").selectAll("vis").remove;
+		d3.select("#crimeDataContainer").selectAll("vis").remove;
 	},
 
     //////////////////////////////////////////////////////////////////////////
@@ -157,6 +158,7 @@ var V_Data = Class.extend({
         var svg = this.svgBar1;
 
         //svg.selectAll("*").remove();
+        this.removeCharts();
 
         var x = d3.scale.ordinal().rangeRoundBands([0,width-100], .1); // -100 make run for legend
         var y = d3.scale.linear().rangeRound([height,0]);
@@ -192,8 +194,8 @@ var V_Data = Class.extend({
         svg = d3.select("#barchart2").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-            .attr("viewBox", "500 100")
-            //.attr("preserveAspectRatio", "xMidYMid meet")
+            .attr("viewBox", "" + -margin.left + " 0 600 " + height)
+            .attr("preserveAspectRatio", "xMidYMid meet")
             .append("g")
             .attr("transform","translate(" + margin.left + "," + margin.top + ")");
 
@@ -258,15 +260,18 @@ var V_Data = Class.extend({
 
     BarChart2: function (a, b, c, d, e, f) {
         console.log("In BarChart2()");
-        console.log("a: " + a + ", b: " + b);
-        console.log("c: " + c + ", d: " + d);
+        //console.log("a: " + a + ", b: " + b);
+        //console.log("c: " + c + ", d: " + d);
         var margin = this.barMargin;
         var height = this.barCanvasHeight;
         var width = this.barCanvasWidth;
 
-        var svg = this.svgBar2;
+        var svg = this.svgBar1;
 
-        //svg.selectAll("*").remove();
+        if( svg == null){}
+        else{
+            svg.selectAll("*").remove();
+        }
 
         var x = d3.scale.ordinal()
             .rangeRoundBands([0, width-100], .1); //width-100 to make room for the legend.
@@ -289,19 +294,16 @@ var V_Data = Class.extend({
             .orient("left")
             .tickFormat(d3.format(".2s"));
 
-        svg = d3.select("#ChicagoCrimeData").append("svg")
+        svg = d3.select("#barchart2").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         // Get the data
-        var data = [{"Label":"Pothole","Week":a,"Month":b},
-            {"Label":"Crime","Week":200,"Month":300},
+        var data = [ {"Label":"Pothole","Week":a,"Month":b},
             {"Label":"Lights","Week":e,"Month":f},
-            {"Label":"Abandon Vehicle","Week":c,"Month":d},
-            {"Label":"Food","Week":35,"Month":69},
-            {"Label":"Divvy","Week":155,"Month":235}];
+            {"Label":"Abandon Vehicle","Week":c,"Month":d} ];
 
         color.domain(d3.keys(data[0]).filter(function(key) { return key !== "Label"; }));
 
