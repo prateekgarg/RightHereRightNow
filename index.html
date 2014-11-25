@@ -14,11 +14,11 @@
         }
 
     </style>
-    <link rel="stylesheet" href="Res/css/bootstrap-responsive.min.css" />
+    <!--<link rel="stylesheet" href="Res/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="Res/css/bootstrap.min.css" />
     <script src="Res/js/bootstrap.js"></script>
     <link rel="stylesheet" href="Res/css/leaflet-routing-machine.css" />
-    <link href="Res/css/font-awesome.min.css" rel="stylesheet">
+    <link href="Res/css/font-awesome.min.css" rel="stylesheet">-->
 
 
     <title>Right Here Right Now</title>
@@ -45,7 +45,7 @@
     <script src="Res/js/jquery-sidebar.js"></script>
     <script src="Res/js/leaflet-sidebar.js"></script>
     <script src="Res/js/vis/visApp.js"></script>
-
+    <script src="Res/js/v_data/v_data.js"></script>
     <script src="Res/libraries/Leaflet-Routing-machine.min.js"></script>
     <script>
         var mapApp;
@@ -63,9 +63,8 @@
             VisApp.startup("#barchart2");
             setInterval(function(){mapApp.refreshData()}, 60000);
             //VisApp = document.getElementsByClassName("leaflet-top leaflet-right")[0].style.display = 'none';
-
-
         }
+        
         function showHideWeather(){
             var weatherStatus = document.getElementsByClassName("MainMap");
             if (weatherStatus[0].style.display !== 'none'){
@@ -148,6 +147,7 @@
                     <div id="SelectionData" style="position: relative;float:left;width:100%;height:45%;"></div>
                 </div>
             </div>
+            <div class="sidebar-pane" id="profile"><h1>Graphs</h1></div>
             <div class="sidebar-pane" id="messages"><h1>Messages</h1></div>
             <div class="sidebar-pane" id="settings"><h1>Settings</h1>
 

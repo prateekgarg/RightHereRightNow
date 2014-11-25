@@ -31,9 +31,9 @@ var visApp = Class.extend({
 
     /////////////////////////////////////////////////////////////
     drawBarChart: function(error, data){
-    this.drawBarChart1(error, data);
-        this.drawBarChart2(error, data);
-},
+        //this.drawBarChart1(error, data);
+        //this.drawBarChart2(error, data);
+    },
 
     //Drawing the bar chart for Origin distribution for the first visualization group.
     drawBarChart1: function (error, data)
@@ -145,7 +145,9 @@ var visApp = Class.extend({
                 return y(jsonObj[1][i]);
             })
             .style("font-size","120%");
-console.log(jsonObj)
+
+        console.log(jsonObj)
+        
         svg.selectAll(".chart-title")
             .data(jsonObj)
             .enter()
