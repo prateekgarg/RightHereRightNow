@@ -233,10 +233,12 @@ var mapClass = Class.extend({
                 else{
                     console.log("Mode was not defined");
                 }
-                console.log("Visualize here once all query have finish");
+                //console.log("Visualize here once all query have finish");
                 // Display charts
                 viz.visualizeit(viz.cityPotholeMonth, viz.cityPotholeWeek, viz.cityVehicleMonth, viz.cityVehicleWeek, viz.cityLightMonth, viz.cityLightWeek);
             }
+            //console.log("Visualize here once all query have finish");
+            //viz.visualizeit(viz.cityPotholeMonth, viz.cityPotholeWeek, viz.cityVehicleMonth, viz.cityVehicleWeek, viz.cityLightMonth, viz.cityLightWeek);
         );
     },
 

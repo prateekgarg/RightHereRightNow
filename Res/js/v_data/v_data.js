@@ -7,21 +7,17 @@ var V_Data = Class.extend({
 	construct: function(){
 
         this.barMargin = {top: 100, right: 45, bottom: 100, left: 45};
-        this.barCanvasWidth = 350;
+        this.barCanvasWidth = 400;
         this.barCanvasHeight = 200;
 
         this.barWidth = 400;
         this.barHeight = 400;
 
-
-
-        this.mytag1 = "";
+        this.myTag1 = "";
         this.svgBar1 = null;
         this.svgBar2 = null;
         this.svgBar3 = null;
         this.svgBar4 = null;
-        //this.svgTable1 = null;
-        //this.svgTable2 = null;
 
         this.cityPotholeMonth = 0;
         this.cityPotholeWeek = 0;
@@ -50,7 +46,6 @@ var V_Data = Class.extend({
  
         this.cityDivvyOut = 0;
         this.cityDivvyIn = 0;
-
 	},
 
 	/////////////////////////////////////////////////////
@@ -118,17 +113,16 @@ var V_Data = Class.extend({
 	////////////////////////////////
 	visualizeit: function( a, b, c, d, e, f){
 
-		console.log("In visualizationit()");
-		//this.pieChart( pothole_length);
+		console.log("In visualizeit()");
         //console.log("a: " + a + ",b: " + b);
         // Overall Data
         this.BarChart2(a,b,c,d,e,f);
         // Potholes
-        //this.BarChart1(a,b,0);
+        this.BarChart1(a,b,0);
         // Vehicles
-        //this.BarChart1(c,d,1);
+        this.BarChart3(c,d,1);
         // Lights
-        //this.BarChart1(e,f,2);
+        this.BarChart4(e,f,2);
 	},
 
 	///////////////////////////////////////
@@ -150,13 +144,11 @@ var V_Data = Class.extend({
     BarChart1: function (a, b, mode) {
 
         console.log("This the BarChart1\n");
+        d3.select("#bar1").remove();
 
         var margin = this.barMargin;
         var width = this.barCanvasWidth;
         var height = this.barCanvasHeight;
-        var svg = this.svgBar1;
-
-        d3.select("svg").remove();
 
         var x = d3.scale.ordinal().rangeRoundBands([0,width-100], .1); // -100 make run for legend
         var y = d3.scale.linear().rangeRound([height,0]);
@@ -187,15 +179,16 @@ var V_Data = Class.extend({
         x.domain(data.map(function(d){ return d.label; }));
         y.domain([0,d3.max(data, function(d){ return d.value; })]);
 
-        svg = d3.select("#barchart2").append("svg")
+        bar = d3.select("#barchart2").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
+            .attr("id", "bar1")
             .attr("viewBox", "" + -margin.left + " 0 600 " + height)
             .attr("preserveAspectRatio", "xMidYMid meet")
-            .append("g")
-            .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+            .append("g");
+            //.attr("transform","translate(" + margin.left + "," + margin.top + ")");
 
-        svg.append("g")
+        bar.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
@@ -206,7 +199,7 @@ var V_Data = Class.extend({
             .style("text-anchor","middle")
             .text(title);
 
-        svg.append("g")
+        bar.append("g")
             .attr("class", "y axis")
             .call(yAxis)
             .append("text")
@@ -216,7 +209,7 @@ var V_Data = Class.extend({
             .attr("text-anchor","middle")
             .text("Count");
 
-        svg.selectAll("text")
+        bar.selectAll("text")
             .data(data)
             .enter()
             .append("text")
@@ -228,7 +221,7 @@ var V_Data = Class.extend({
             .text(function(d) {return y(d.value);});
 
         //grid lines  y.ticks controls the number of lines
-        svg.selectAll("line.horizontalGrid").data(y.ticks(10)).enter()
+        bar.selectAll("line.horizontalGrid").data(y.ticks(10)).enter()
             .append("line")
             .attr(
             {
@@ -243,7 +236,7 @@ var V_Data = Class.extend({
                 "stroke-width" : "1px"
             });
 
-        svg.selectAll("rect")
+        bar.selectAll("rect")
             .data(data)
             .enter().append("rect")
             .attr("x", function(d){ return x(d.label); })
@@ -255,15 +248,17 @@ var V_Data = Class.extend({
     },
 
     BarChart2: function (a, b, c, d, e, f) {
+
         console.log("In BarChart2()");
         //console.log("a: " + a + ", b: " + b);
         //console.log("c: " + c + ", d: " + d);
+        
+        d3.select("svg").remove();
+
         var margin = this.barMargin;
         var height = this.barCanvasHeight;
         var width = this.barCanvasWidth;
-        var svg = this.svgBar2;
-
-        d3.select("svg").remove();
+        //var svg = this.svgBar1;
 
         var x = d3.scale.ordinal()
             .rangeRoundBands([0, width-100], .1); //width-100 to make room for the legend.
@@ -289,8 +284,11 @@ var V_Data = Class.extend({
         svg = d3.select("#ChicagoCrimeData").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
+            .attr("viewBox", "" + -margin.left + " 100 600 " + height)
+            //.attr("preserveAspectRatio", "xMidYMid meet")
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            //.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "overallBar");
 
         // Get the data
         var data = [ {"Label":"Pothole","Selected":a,"Total":b},
@@ -330,7 +328,6 @@ var V_Data = Class.extend({
             .attr("dy", ".71em")
             .attr("text-anchor","middle")
             .style("text-anchor", "end");
-            //.text("Population");
 
         //grid lines  y.ticks controls the number of lines
         svg.selectAll("line.horizontalGrid").data(y.ticks(10)).enter()
@@ -408,6 +405,216 @@ var V_Data = Class.extend({
             .attr("y", function(d, i) { return y(d.y1) + (y(d.y0) - y(d.y1))/2; })
             .style("text-anchor", "middle")
             .text(function(d, i) { return d.y1-d.y0; })
+    },
+
+     BarChart3: function (a, b, mode) {
+
+        console.log("This the BarChart3\n");
+        d3.select("#bar2").remove();
+
+        var margin = this.barMargin;
+        var width = this.barCanvasWidth;
+        var height = this.barCanvasHeight;
+
+        var x = d3.scale.ordinal().rangeRoundBands([0,width-100], .1); // -100 make run for legend
+        var y = d3.scale.linear().rangeRound([height,0]);
+        var color = d3.scale.ordinal().range(["#1f77b4", "#ff7f0e"]); //blue, orange,
+        var xAxis = d3.svg.axis().scale(x).orient("bottom");
+        var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format(".2s"));
+
+        // Pothole data
+        if( mode == 0){
+            var data = [ {"label":"Total","value":b+a}, {"label":"Selected","value":a} ];
+            var title = "Pothole Data";
+        }
+        // Abandon Vehicles data
+        else if( mode == 1){
+            var data = [ {"label":"Total","value":b+a}, {"label":"Selected","value":a} ];
+            var title = "Abandoned Vehicles Data";
+        }
+        // Light data
+        else if( mode == 2){
+            var data = [ {"label":"Total","value":b+a}, {"label":"Selected","value":a} ];
+            var title = "Light Data";
+        }
+        else{
+            console.log("Invalid mode");
+        }
+
+        // Construct bar chart
+        x.domain(data.map(function(d){ return d.label; }));
+        y.domain([0,d3.max(data, function(d){ return d.value; })]);
+
+        hel = d3.select("#barchart3").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("id", "bar2")
+            .attr("viewBox", "" + -margin.left + " 0 600 " + height)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .append("g");
+
+        hel.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+            .append("text")
+            .attr("y",50)
+            .attr("x",width/2)
+            .attr("dx",".71em")
+            .style("text-anchor","middle")
+            .text(title);
+
+        hel.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y",10)
+            .attr("dy",",71em")
+            .attr("text-anchor","middle")
+            .text("Count");
+
+        hel.selectAll("text")
+            .data(data)
+            .enter()
+            .append("text")
+            .attr("transform", "translate(50,0)")
+            .attr("text-anchor", "middle")
+            .attr("x", function(d, i) {return (i * (width / data.length)) + ((width / data.length - 50) / 2);})
+            .attr("y", function(d) {return y(0) - y(d.size) + 14;})
+            .attr("class", "yAxis")
+            .text(function(d) {return y(d.value);});
+
+        //grid lines  y.ticks controls the number of lines
+        hel.selectAll("line.horizontalGrid").data(y.ticks(10)).enter()
+            .append("line")
+            .attr(
+            {
+                "class":"horizontalGrid",
+                "x1" : 0,
+                "x2" : width-60,
+                "y1" : function(d){ return y(d);},
+                "y2" : function(d){ return y(d);},
+                "fill" : "none",
+                "shape-rendering" : "crispEdges",
+                "stroke" : "grey",
+                "stroke-width" : "1px"
+            });
+
+        hel.selectAll("rect")
+            .data(data)
+            .enter().append("rect")
+            .attr("x", function(d){ return x(d.label); })
+            .attr("width", x.rangeBand())
+            .attr("y", function(d){ return y(d.value); })
+            .attr("height", function(d) {return  height - y(d.value); })
+            .style("fill", "steelblue");
+
+    },
+
+     BarChart4: function (a, b, mode) {
+
+        console.log("This the BarChart4\n");
+        d3.select("#bar3").remove();
+
+        var margin = this.barMargin;
+        var width = this.barCanvasWidth;
+        var height = this.barCanvasHeight;
+
+        var x = d3.scale.ordinal().rangeRoundBands([0,width-100], .1); // -100 make run for legend
+        var y = d3.scale.linear().rangeRound([height,0]);
+        var color = d3.scale.ordinal().range(["#1f77b4", "#ff7f0e"]); //blue, orange,
+        var xAxis = d3.svg.axis().scale(x).orient("bottom");
+        var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format(".2s"));
+
+        // Pothole data
+        if( mode == 0){
+            var data = [ {"label":"Total","value":b+a}, {"label":"Selected","value":a} ];
+            var title = "Pothole Data";
+        }
+        // Abandon Vehicles data
+        else if( mode == 1){
+            var data = [ {"label":"Total","value":b+a}, {"label":"Selected","value":a} ];
+            var title = "Abandoned Vehicles Data";
+        }
+        // Light data
+        else if( mode == 2){
+            var data = [ {"label":"Total","value":b+a}, {"label":"Selected","value":a} ];
+            var title = "Light Data";
+        }
+        else{
+            console.log("Invalid mode");
+        }
+
+        // Construct bar chart
+        x.domain(data.map(function(d){ return d.label; }));
+        y.domain([0,d3.max(data, function(d){ return d.value; })]);
+
+        cat = d3.select("#barchart4").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("id", "bar3")
+            .attr("viewBox", "" + -margin.left + " 0 600 " + height)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .append("g");
+
+        cat.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+            .append("text")
+            .attr("y",50)
+            .attr("x",width/2)
+            .attr("dx",".71em")
+            .style("text-anchor","middle")
+            .text(title);
+
+        cat.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y",10)
+            .attr("dy",",71em")
+            .attr("text-anchor","middle")
+            .text("Count");
+
+        cat.selectAll("text")
+            .data(data)
+            .enter()
+            .append("text")
+            .attr("transform", "translate(50,0)")
+            .attr("text-anchor", "middle")
+            .attr("x", function(d, i) {return (i * (width / data.length)) + ((width / data.length - 50) / 2);})
+            .attr("y", function(d) {return y(0) - y(d.size) + 14;})
+            .attr("class", "yAxis")
+            .text(function(d) {return y(d.value);});
+
+        //grid lines  y.ticks controls the number of lines
+        cat.selectAll("line.horizontalGrid").data(y.ticks(10)).enter()
+            .append("line")
+            .attr(
+            {
+                "class":"horizontalGrid",
+                "x1" : 0,
+                "x2" : width-60,
+                "y1" : function(d){ return y(d);},
+                "y2" : function(d){ return y(d);},
+                "fill" : "none",
+                "shape-rendering" : "crispEdges",
+                "stroke" : "grey",
+                "stroke-width" : "1px"
+            });
+
+        cat.selectAll("rect")
+            .data(data)
+            .enter().append("rect")
+            .attr("x", function(d){ return x(d.label); })
+            .attr("width", x.rangeBand())
+            .attr("y", function(d){ return y(d.value); })
+            .attr("height", function(d) {return  height - y(d.value); })
+            .style("fill", "steelblue");
+
     },
 
     // Return count for each category
