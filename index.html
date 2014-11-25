@@ -12,13 +12,16 @@
             stroke: #000;
             shape-rendering: crispEdges;
         }
+        .leaflet-routing-container{
+            display: none;
+        }
 
     </style>
-    <!--<link rel="stylesheet" href="Res/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="Res/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="Res/css/bootstrap.min.css" />
     <script src="Res/js/bootstrap.js"></script>
     <link rel="stylesheet" href="Res/css/leaflet-routing-machine.css" />
-    <link href="Res/css/font-awesome.min.css" rel="stylesheet">-->
+    <link href="Res/css/font-awesome.min.css" rel="stylesheet">
 
 
     <title>Right Here Right Now</title>
@@ -27,11 +30,11 @@
     <link rel="stylesheet" href="Res/css/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="Res/css/leaflet-sidebar.css" />
 
-<style>
-    .MainMap{
-        display: block;
-    }
-</style>
+    <style>
+        .MainMap{
+            display: block;
+        }
+    </style>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
@@ -61,10 +64,11 @@
             VisApp = new visApp;
             VisApp.startup("#ChicagoCrimeData");
             VisApp.startup("#barchart2");
-            setInterval(function(){mapApp.refreshData()}, 60000);
+            setInterval(function(){mapApp.refreshData()}, 70000);
             //VisApp = document.getElementsByClassName("leaflet-top leaflet-right")[0].style.display = 'none';
+
+
         }
-        
         function showHideWeather(){
             var weatherStatus = document.getElementsByClassName("MainMap");
             if (weatherStatus[0].style.display !== 'none'){
@@ -86,7 +90,7 @@
         <ul class="sidebar-tabs" role="tablist" style="position:relative;height: 40%">
             <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
             <li><a href="#profile" role="tab"><i class="fa fa-bar-chart"></i></a></li>
-            <li><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+            <li><a href="#messages" role="tab"><i class="fa fa-user"></i></a></li>
             <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
         </ul>
 
@@ -98,15 +102,15 @@
 
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" onclick="mapApp.limitView()">UIC to Museum Campus
-                            </button>
+                        </button>
                     </div><br>
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" onclick="mapApp.fullView()">Overall Chicago
-                    </button>
+                        </button>
                     </div><br/>
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default"  onclick="mapApp.refreshData()">Refresh Map
-                    </button></div><br>
+                        </button></div><br>
                 </div>
                 <hr>
                 <div class="btn-group btn-group-justified" role="group" >
@@ -115,28 +119,15 @@
                         <button type="button" class="btn btn-default" onclick="showHideWeather()">Show/Hide Weather
                         </button>
                     </div><br>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default" onclick="mapApp.setMap(1)">Satellite View
-                        </button>
-                    </div><br/>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default"  onclick="mapApp.setMap(3)">Street View
-                        </button></div><br>
+
                 </div>
                 <hr>
                 <div role="group" >
 
-                    <div role="group">
-                        <input type="radio" onclick="mapApp.boxFlag = true" value="drawBox" checked="checked">Draw Box
 
-                    </div>
-                    <div role="group">
-                        <input type="radio" onclick="mapApp.boxFlag = false" value="drawPath">Draw Path
-
-                    </div>
 
                 </div>
-                 </div>
+            </div>
             <div class="sidebar-pane" id="profile">
                 <div id="crimeDataContainer" style="position: relative;float:left;width:100%;height:95%;">
                     <div id="ChicagoCrimeData" style="position: relative;float:left;width:100%;height:50%;"></div>
@@ -147,8 +138,20 @@
                     <div id="SelectionData" style="position: relative;float:left;width:100%;height:45%;"></div>
                 </div>
             </div>
-            <div class="sidebar-pane" id="profile"><h1>Graphs</h1></div>
-            <div class="sidebar-pane" id="messages"><h1>Messages</h1></div>
+            <div class="sidebar-pane" id="messages">
+                <h1>Profile</h1>
+                <p>
+                <li>
+                    Prateek Garg: Map, Controls, Data
+                </li>
+                <li>Peter Beckos: CTA data and documentation</li>
+                <li>Hardik Prajapati: Visualizations</li>
+                <li>
+                    Raul Luna Junior: Visualizations
+                </li>
+                </p>
+
+            </div>
             <div class="sidebar-pane" id="settings"><h1>Settings</h1>
 
 
@@ -156,7 +159,7 @@
         </div>
     </div>
     <div id="map" class="sidebar-map" style="height: 100%;"></div>
-    </div>
+</div>
 </div>
 </body>
 
