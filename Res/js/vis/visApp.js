@@ -156,7 +156,7 @@ var visApp = Class.extend({
             .attr("y", height-600)
             .attr("text-anchor","middle")
             .attr("font-family", "sans-serif")
-            .attr("font-size","20pt")
+            .attr("font-size","30pt")
             .text("Crime Data Overall Chicago");
     },
 

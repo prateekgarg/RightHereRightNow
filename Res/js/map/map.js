@@ -191,7 +191,6 @@ var mapClass = Class.extend({
         var query = url;
         var bigCollection = this.bigCollection;
         var callback = this.processData.bind(this);
-        var index = 0;
 
         d3.json
         (
@@ -208,7 +207,6 @@ var mapClass = Class.extend({
                     console.log("viz.cityPotholeWeek: " + viz.cityPotholeWeek);
                     // Visualize pothole data
                     //viz.visualizeit(viz.cityPotholeMonth, viz.cityPotholeWeek);
-                    index = index + 1;
                 }
                 else if( mode == 1){
                     vehicleArray = viz.Count(collection);
@@ -218,7 +216,8 @@ var mapClass = Class.extend({
                     console.log("viz.cityVehicleMonth: " + viz.cityVehicleMonth);
                     viz.cityVehicleWeek = vehicleArray[1];
                     console.log("viz.cityVehicleWeek: " + viz.cityVehicleWeek);
-                    index = index + 1;
+                    // Visualize pothole data
+                    //viz.visualizeit(viz.cityVehicleMonth, viz.cityVehicleeWeek);
                 }
                 else if( mode == 2){
                     lightArray = viz.Count(collection);
@@ -228,17 +227,15 @@ var mapClass = Class.extend({
                     console.log("viz.cityLightMonth: " + viz.cityLightMonth);
                     viz.cityLightWeek = lightArray[1];
                     console.log("viz.cityLightWeek: " + viz.cityLightWeek);
-                    index = index + 1;
+                    // Visualize pothole data
+                    //viz.visualizeit(viz.cityLightMonth, viz.cityLightWeek);
                 }
                 else{
                     console.log("Mode was not defined");
-                    index = index + 1;
                 }
                 console.log("Visualize here once all query have finish");
-                // Clear charts then add them
-                //if( index >= 3){
-                    viz.visualizeit(viz.cityPotholeMonth, viz.cityPotholeWeek, viz.cityVehicleMonth, viz.cityVehicleWeek, viz.cityLightMonth, viz.cityLightWeek);
-                //}
+                // Display charts
+                viz.visualizeit(viz.cityPotholeMonth, viz.cityPotholeWeek, viz.cityVehicleMonth, viz.cityVehicleWeek, viz.cityLightMonth, viz.cityLightWeek);
             }
         );
     },
