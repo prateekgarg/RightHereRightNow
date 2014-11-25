@@ -121,15 +121,14 @@ var V_Data = Class.extend({
 		console.log("In visualizationit()");
 		//this.pieChart( pothole_length);
         //console.log("a: " + a + ",b: " + b);
-        //this.BarChart2(a,b,c,d,e,f);
         // Overall Data
         this.BarChart2(a,b,c,d,e,f);
         // Potholes
-        this.BarChart1(a,b,0);
+        //this.BarChart1(a,b,0);
         // Vehicles
-        this.BarChart1(c,d,1);
+        //this.BarChart1(c,d,1);
         // Lights
-        this.BarChart1(e,f,2);
+        //this.BarChart1(e,f,2);
 	},
 
 	///////////////////////////////////////
@@ -138,7 +137,7 @@ var V_Data = Class.extend({
 	removeCharts: function(){
 
 		//d3.select("svg").remove;
-		d3.select("#crimeDataContainer").selectAll("vis").remove;
+        //svg.selectAll("#barchart2").remove()
 	},
 
     //////////////////////////////////////////////////////////////////////////
@@ -157,8 +156,7 @@ var V_Data = Class.extend({
         var height = this.barCanvasHeight;
         var svg = this.svgBar1;
 
-        //svg.selectAll("*").remove();
-        this.removeCharts();
+        d3.select("svg").remove();
 
         var x = d3.scale.ordinal().rangeRoundBands([0,width-100], .1); // -100 make run for legend
         var y = d3.scale.linear().rangeRound([height,0]);
@@ -184,8 +182,6 @@ var V_Data = Class.extend({
         else{
             console.log("Invalid mode");
         }
-
-        //console.log("BarChart1 / Data: ", data);
 
         // Construct bar chart
         x.domain(data.map(function(d){ return d.label; }));
@@ -265,13 +261,9 @@ var V_Data = Class.extend({
         var margin = this.barMargin;
         var height = this.barCanvasHeight;
         var width = this.barCanvasWidth;
+        var svg = this.svgBar2;
 
-        var svg = this.svgBar1;
-
-        if( svg == null){}
-        else{
-            svg.selectAll("*").remove();
-        }
+        d3.select("svg").remove();
 
         var x = d3.scale.ordinal()
             .rangeRoundBands([0, width-100], .1); //width-100 to make room for the legend.
@@ -294,16 +286,16 @@ var V_Data = Class.extend({
             .orient("left")
             .tickFormat(d3.format(".2s"));
 
-        svg = d3.select("#barchart2").append("svg")
+        svg = d3.select("#ChicagoCrimeData").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         // Get the data
-        var data = [ {"Label":"Pothole","Week":a,"Month":b},
-            {"Label":"Lights","Week":e,"Month":f},
-            {"Label":"Abandon Vehicle","Week":c,"Month":d} ];
+        var data = [ {"Label":"Pothole","Selected":a,"Total":b},
+            {"Label":"Lights","Selected":e,"Total":f},
+            {"Label":"Abandon Vehicle","Selected":c,"Total":d} ];
 
         color.domain(d3.keys(data[0]).filter(function(key) { return key !== "Label"; }));
 
@@ -406,7 +398,7 @@ var V_Data = Class.extend({
             .attr("text-anchor", "middle")
             .style("font-size", "20px")
             .style("text-decoration", "underline")
-            .text("OverAll Chicago");
+            .text("Overall Chicago");
 
         state.selectAll("text")
             .data(function(d) { return d.num; })
