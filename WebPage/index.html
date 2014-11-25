@@ -45,6 +45,7 @@
                     <span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#page-top">Right Here Right Now</a>
             </div>
@@ -54,6 +55,9 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden">
                         <a href="#page-top"></a>
+                    </li>
+					<li class="page-scroll">
+                        <a href="http://pgarg5.people.uic.edu/Project_3/#home">App</a>
                     </li>
                     <li class="page-scroll">
                         <a href="#use">Use</a>
@@ -115,19 +119,7 @@
 								<li>UIC to Museum Campus: shows data between UIC and Museum Campus</li>
 								<li>Overall Chicago: shows all info for chicago</li>
 								<li>Refresh Map: refreshes the map</li>
-								<li>Map View: sets map to standard map view </li>
-								<li>Satellite View: sets map to satellite / arial view</li>
-								<li>Street View: sets map to road view</li>
-								<li>View Items: Checking these off show the following live occurances
-									<ul>
-										<li>Potholes</li>
-										<li>Abondoned Vehicles</li>
-										<li>Street Lights</li>
-										<li>Divvy Stands</li>
-										<li>Crime Data</li>
-										<li>CTA Buses</li>
-									</ul>
-								</li>
+								<li>Show/Hide Weather: shows or hides the weather widget on the right</li>
 							</ul>
 						</li>
 						<li>Profile: about us (unfinished)</li>
@@ -135,12 +127,38 @@
 						<li>Settings: custom settings (unfinished)</li>
 					</ul>
 				</div>
+				<p style="clear:both">View Control</p>
+				<div style="float:left;">
+					<img class="img-responsive" src="img/appViewControls.png" alt="">
+				</div>
+				<div style="float:left">
+					<ul>
+						<li>Map Styles
+							<ul>
+								<li>Map View: sets map to standard map view </li>
+								<li>Satellite View: sets map to satellite / arial view</li>
+								<li>Street View: sets map to road view</li>
+								
+							</ul>
+						</li>
+						<li>View Items: Checking these off show the following live occurances
+							<ul>
+								<li>Potholes</li>
+								<li>Abondoned Vehicles</li>
+								<li>Street Lights</li>
+								<li>Divvy Stands</li>
+								<li>Crime Data</li>
+								<li>CTA Buses</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 				<p style="clear:both">Clicking on the map:</p>
-				<div style="width:50%; float:left;">
+				<div>
 					<img class="img-responsive" src="img/appUse1.png" alt="">
 					<p>Clicking once on the map will put down a marker.</p>
 				</div>
-				<div style="width:50%; float:left;">
+				<div>
 					<img class="img-responsive" src="img/appUse2.png" alt="">
 					<p>Clicking again will find a path for you to take</p>
 				</div>
@@ -158,15 +176,19 @@
                 </div>
             </div>
 			<ul>
-				<li>d3: javascript library used to display data - <a href= "http://d3js.org/">http://d3js.org/</a></li>
-				<li>Leaflet: javascript library used for interactive map - <a href ="http://leafletjs.com/">http://leafletjs.com/</a></li>
+				<li>d3: javascript library used to display data - <a href= "http://d3js.org/">http://d3js.org/</a>
+					<img src="img/data/d3.png" class="img-responsive" alt="">
+				</li>
+				<li>Leaflet: javascript library used for interactive map - <a href ="http://leafletjs.com/">http://leafletjs.com/</a>
+					<img src="img/data/leaflet.png" class="img-responsive" alt="">
+				</li>
 				<li>CTA api: gateway to real time CTA bus location and info - <a href="http://www.transitchicago.com/assets/1/developer_center/BusTime_Developer_API_Guide.pdf">http://www.transitchicago.com/assets/1/developer_center/BusTime_Developer_API_Guide.pdf</a></li>
-				<li>php proxy: php script used to fetch non local data - <a href="http://benalman.com/projects/php-simple-proxy>">http://benalman.com/projects/php-simple-proxy</a></li>
-				<li>yahoo proxy: used to fetch non local data  - <a href="https://developer.yahoo.com/javascript/howto-proxy.html">https://developer.yahoo.com/javascript/howto-proxy.html</a></li>
-				<li>jquery: javascript library used for HTML document traversal and manipulation - <a href= "http://jquery.com/">http://jquery.com/</a></li>
-				<li>routing machine: routing control for leaflet - <a href="http://www.liedman.net/leaflet-routing-machine/">http://www.liedman.net/leaflet-routing-machine/</a></li>
-				<li>divvy data</li>
-				<li>Weather App</li>
+				<li>PHP proxy: php script used to fetch non local data - <a href="http://benalman.com/projects/php-simple-proxy>">http://benalman.com/projects/php-simple-proxy</a></li>
+				<li>Yahoo proxy: used to fetch non local data  - <a href="https://developer.yahoo.com/javascript/howto-proxy.html">https://developer.yahoo.com/javascript/howto-proxy.html</a></li>
+				<li>jQuery: javascript library used for HTML document traversal and manipulation - <a href= "http://jquery.com/">http://jquery.com/</a></li>
+				<li>Routing Machine: routing control for leaflet - <a href="http://www.liedman.net/leaflet-routing-machine/">http://www.liedman.net/leaflet-routing-machine/</a></li>
+				<li>Divvy data: live data on the divvy stations - <a href="http://www.divvybikes.com/stations/json/">http://www.divvybikes.com/stations/json/</a></li>
+				<li>Weather App: live data on the weather - <a href="http://www.wunderground.com/weather/api/d/docs?d=resources/code-samples">http://www.wunderground.com/weather/api/d/docs?d=resources/code-samples</a></li>
 			</ul>
 		</div>
     </section>
@@ -181,7 +203,11 @@
                 </div>
             </div>
 			<p>Github link: <a href="https://github.com/prateekgarg/RightHereRightNow">https://github.com/prateekgarg/RightHereRightNow</a></p>
-        </div>
+			<p>Steps to download:</p>
+			<p>Option 1 - Click "Download ZIP" button on github. This will give you a static copy of our source code</p>
+			<p>Option 2 - Clone our git copying the clone Url "https://github.com/prateekgarg/RightHereRightNow.git"</p>
+			<img src="img/appSource.png" class="img-responsive" alt="">
+		</div>
     </section>
 	
 	<!-- Findings Section -->
@@ -258,8 +284,50 @@
                     <hr class="star-primary">
                 </div>
             </div>
-			<p>Prateek says: the roles of the different team members</p>
-            <p>Some stuff is to be said here</p>
+			<div class="col-sm-4 portfolio-item">
+				<a data-toggle="modal">
+					<div class="caption">
+						<div class="caption-content">
+							<p>Prateek</p>
+						</div>
+					</div>
+					<img src="img/us/Prateek.png" class="img-responsive" alt="">
+					<p>Map, Layout, Data, and Functionality for App</p>
+				</a>
+			</div>
+			<div class="col-sm-4 portfolio-item">
+				<a data-toggle="modal">
+					<div class="caption">
+						<div class="caption-content">
+							<p>Peter</p>
+						</div>
+					</div>
+					<img src="img/us/Peter.png" class="img-responsive" alt="">
+					<p>CTA API and documentation</p>
+				</a>
+			</div>
+			<div class="col-sm-4 portfolio-item">
+				<a data-toggle="modal">
+					<div class="caption">
+						<div class="caption-content">
+							<p>Hardik</p>
+						</div>
+					</div>
+					<img src="img/us/Hardick.png" class="img-responsive" alt="">
+					<p>Visualizations</p>
+				</a>
+			</div>
+			<div class="col-sm-4 portfolio-item">
+				<a data-toggle="modal">
+					<div class="caption">
+						<div class="caption-content">
+							<p>Junior</p>
+						</div>
+					</div>
+					<img src="img/us/Junior.png" class="img-responsive" alt="">
+					<p>Visualizations</p>
+				</a>
+			</div>
         </div>
     </section>
 
