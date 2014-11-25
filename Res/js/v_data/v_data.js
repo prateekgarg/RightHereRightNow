@@ -6,8 +6,8 @@ var V_Data = Class.extend({
 	
 	construct: function(){
 
-        this.barMargin = {top: 100, right: 20, bottom: 100, left: 70};
-        this.barCanvasWidth = 400;
+        this.barMargin = {top: 100, right: 45, bottom: 100, left: 45};
+        this.barCanvasWidth = 350;
         this.barCanvasHeight = 200;
 
         this.barWidth = 400;
@@ -217,7 +217,7 @@ var V_Data = Class.extend({
             .attr("transform", "rotate(-90)")
             .attr("y",10)
             .attr("dy",",71em")
-            .style("text-anchor","end")
+            .attr("text-anchor","middle")
             .text("Count");
 
         svg.selectAll("text")
@@ -336,6 +336,7 @@ var V_Data = Class.extend({
             .attr("transform", "rotate(-90)")
             .attr("y", 6)
             .attr("dy", ".71em")
+            .attr("text-anchor","middle")
             .style("text-anchor", "end");
             //.text("Population");
 
